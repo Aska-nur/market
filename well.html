@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+  <style>
+    .body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: rgb(150, 105, 146);
+    }
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .box {
+        display: inline-block;
+        margin-left: 10px;
+        box-shadow: 0 4px 8px rgba(124, 19, 19, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    img {
+        width: 400px;
+        height: 300px;
+    }
+    .card-body {
+        padding: 10px;
+        text-align: center;
+    }
+    .beli {
+        background-color: #811b09;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .beli:hover {
+        background-color: #ccb1a9;
+    }
+  </style>
+<body class="body">
+    <div class="saldo" id="saldo"></div>
+    <div id="card" class="container"></div>
+    <script>
+        let saldo = 500000;
+        const products = [
+            {
+                img: "mochi.webp",
+                name: "Mocchi",
+                desc: "Mochi lembut",
+                price: 12000,
+            },
+            {
+                img: "quesillo.webp",
+                name: "Quesillo",
+                desc: "Quesillo lumer dimulut",
+                price: 40000,
+            },
+            {
+                img: "fluffy.webp",
+                name: "Fluffy Pancake",
+                desc: "Fluffy Pancake lembut",
+                price: 35000,
+            },
+        ];
+
+        function formatRupiah(amount) {
+            return new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+            }).format(amount);
+        }
+
+        function renderProducts() {
+            const card = document.getElementById("card");
+            const saldoEl = document.getElementById("saldo");
+            saldoEl.textContent = `Saldo: ${formatRupiah(saldo)}`;
+
+            card.innerHTML = products
+                .map((item, index) => {
+                    return `
+                        <div class="box">
+                            <img src="${item.img}" alt="${item.name}">
+                            <div class="card-body">
+                                <h2>${item.name}</h2>
+                                <p>${item.desc}</p>
+                                <h3 style="color: red;">${formatRupiah(item.price)}</h3>
+                                <button class="beli" data-index="${index}">Beli</button>
+                            </div>
+                        </div>`;
+                })
+                .join("");
+
+            document.querySelectorAll(".beli").forEach((tombol) => {
+                tombol.addEventListener("click", () => {
+                    const index = Number(tombol.getAttribute("data-index"));
+                    const product = products[index];
+                    if (saldo >= product.price) {
+                        saldo -= product.price;
+                        saldoEl.textContent = `Saldo: ${formatRupiah(saldo)}`;
+                        alert(`Berhasil membeli ${product.name} seharga ${formatRupiah(product.price)}`);
+                    } else {
+                        alert("Saldo tidak cukup");
+                    }
+                });
+            });
+        }
+
+        renderProducts();
+    </script>
+</body>
+</html>

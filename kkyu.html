@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body id="body">
+    <button onclick="berubah()">azka</button>
+    <button onclick="berubah2()">azka121221</button>
+    <p onmouseenter="berubah()" onmouseleave="berubah2()">berubah</p>
+    <script>
+        body = document.getElementById("body")
+        function berubah (){
+            body.style.fontSize = "100px"
+            body.style.backgroundColor = "violet"
+        }
+        berubah2 = () => {
+            body.style.backgroundColor = "cyan"
+            body.style.fontSize = "50px"
+        }
+
+    </script>
+</body>
+</html>
